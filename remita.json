@@ -1,0 +1,544 @@
+{
+	"info": {
+		"_postman_id": "c098f3d5-9193-44ec-ac20-920fb4c2af2f",
+		"name": "remita test",
+		"description": "Using the URL below, select any random 10 requests (minus the NOT FOUND options) and  \nimplement at least 3 automated test cases on each request chosen to result in a total of at least  \n30 automated test cases. Along with your documentation, submit the newman report in .html  \nformat.  \nURL https://reqres.in/",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27333339"
+	},
+	"item": [
+		{
+			"name": "First Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Lawson\");\r",
+							"});\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				},
+				"description": "Verify that Status Code is 200\n\nVerify that list contain Lawson\n\nVerify that Response time is below 200EndFragment"
+			},
+			"response": []
+		},
+		{
+			"name": "Second Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if the list contains an item with specific properties\", function () {\r",
+							"    \r",
+							"    var responseBody = pm.response.json();\r",
+							"    var itemList = responseBody.data;\r",
+							"\r",
+							"    //The expected properties\r",
+							"    var expectedItem = {\r",
+							"        \"id\": 3,\r",
+							"        \"name\": \"true red\",\r",
+							"        \"year\": 2002,\r",
+							"        \"color\": \"#BF1932\",\r",
+							"        \"pantone_value\": \"19-1664\"\r",
+							"    };\r",
+							"\r",
+							"    // Check if the list contains an item with the specified properties\r",
+							"    var itemFound = itemList.some(function (item) {\r",
+							"        return (\r",
+							"            item.id === expectedItem.id &&\r",
+							"            item.name === expectedItem.name &&\r",
+							"            item.year === expectedItem.year &&\r",
+							"            item.color === expectedItem.color &&\r",
+							"            item.pantone_value === expectedItem.pantone_value\r",
+							"        );\r",
+							"    });\r",
+							"\r",
+							"    pm.expect(itemFound).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if none of the names contain 'Ayanloye Segun'\", function () {\r",
+							"  \r",
+							"    var responseBody = pm.response.json();\r",
+							"    var itemList = responseBody.data;\r",
+							"\r",
+							"    // The name to check for\r",
+							"    var nameToCheck = \"Ayanloye Segun\";\r",
+							"\r",
+							"    // Check if none of the names in the list match the specified name\r",
+							"    var allNamesNotMatched = itemList.every(function (item) {\r",
+							"        return item.name !== nameToCheck;\r",
+							"    });\r",
+							"\r",
+							"    pm.expect(allNamesNotMatched).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/unknown",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown"
+					]
+				},
+				"description": "1. Verify if the list contain specify properties below\n    \n\n- \"id\": 3,     \n    \n-   \"name\": \"true red\",     \n    \n-   \"year\": 2002,       \n    \n- \"color\": \"#BF1932\",       \n    \n- \"pantone_value\": \"19-1664\"\n    \n\n2\\. Verify if none of the name in the list contain Ayanloye Segun  \n\n3\\. Verify if the status code is 200EndFragment"
+			},
+			"response": []
+		},
+		{
+			"name": "Third Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if the first name is 'Janet'\", function () {\r",
+							"    // Parse the JSON response body\r",
+							"    var responseBody = pm.response.json();\r",
+							"\r",
+							"    // Check if the 'first_name' field in the JSON response is equal to 'Janet'\r",
+							"    pm.expect(responseBody.data.first_name).to.eql('Janet');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if the last name is 'Weaver'\", function () {\r",
+							"    // Parse the JSON response body\r",
+							"    var responseBody = pm.response.json();\r",
+							"\r",
+							"    // Check if the 'last name' field in the JSON response is equal to 'Weaver'\r",
+							"    pm.expect(responseBody.data.last_name).to.eql('Weaver');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				},
+				"description": "1. Verify if the first name is 'Janet'\n    \n2. Verify if the last name is 'Weaver'\n    \n3. Verify Response time is less than 200ms"
+			},
+			"response": []
+		},
+		{
+			"name": "Fourth Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if total pages is 2\", function () {\r",
+							"    // Parse the JSON response body\r",
+							"    var responseBody = pm.response.json();\r",
+							"\r",
+							"    // Check if the 'total_pages' field in the JSON response is equal to 2\r",
+							"    pm.expect(responseBody.total_pages).to.eql(2);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check response time is above 200 milliseconds\", function () {\r",
+							"    // Get the response time in milliseconds\r",
+							"    var responseTime = pm.response.responseTime;\r",
+							"\r",
+							"    // Check if the response time is above 200 milliseconds\r",
+							"    pm.expect(responseTime).to.be.above(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users?delay=3",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "delay",
+							"value": "3"
+						}
+					]
+				},
+				"description": "1. Verify if Status code is 200\n    \n2. Verify if total pages is 2\n    \n3. Verify if response time is above 200 milliseconds"
+			},
+			"response": []
+		},
+		{
+			"name": "Fifth Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Verify if response body is valid JSON\", function () {\r",
+							"    try {\r",
+							"        // Attempt to parse the JSON response body\r",
+							"        var responseBody = JSON.parse(pm.response.text());\r",
+							"\r",
+							"        // Check if parsing was successful\r",
+							"        pm.expect(responseBody).to.be.an('object');\r",
+							"    } catch (e) {\r",
+							"        // Catch and handle any errors during JSON parsing\r",
+							"        pm.expect.fail(\"Response body is not valid JSON\");\r",
+							"    }\r",
+							"});\r",
+							"pm.test(\"Verify Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users?id=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				},
+				"description": "1. Verify response time is above 200 milliseconds\n2. Verify if response body is valid JSON\n3. Verify Status code is 201"
+			},
+			"response": []
+		},
+		{
+			"name": "Sixth Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"    pm.test('Check if response status code is 200', function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    });\r",
+							"pm.test(\"Successful PUT request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				},
+				"description": "1. Verify if response status code is 200\n    \n2. Verify Successful PUT request\n    \n3. Verify Response time is less than 300ms"
+			},
+			"response": []
+		},
+		{
+			"name": "Seventh Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				},
+				"description": "1. Verify Successful POST request\n    \n2. Verify Status code is 201\n    \n3. Verify Response time is less than 500ms"
+			},
+			"response": []
+		},
+		{
+			"name": "Eight Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successful PATCH request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				},
+				"description": "1. Verify Status code name has string\n    \n2. Verify Successful PATCH request\n    \n3. Verify Status code is 200"
+			},
+			"response": []
+		},
+		{
+			"name": "Ninth Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"funke\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tenth Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
